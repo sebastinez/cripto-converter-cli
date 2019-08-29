@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const args = require('yargs');
-const chalk = require('chalk');
 
 args
   .usage('Usage: $0 -w [num] -h [num]')

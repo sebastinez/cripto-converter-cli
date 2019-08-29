@@ -1,26 +1,33 @@
 {
   "name": "web3conv",
   "version": "0.1.0",
-  "description": "\"# cripto-converter-cli\"",
-  "main": "bin/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "CLI Application for type conversion",
+  "main": "web3conv",
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sebastinez/cripto-converter-cli.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "Ethereum",
+    "JavaScript"
+  ],
+  "author": {
+    "name": "Sebastian Martinez",
+    "url": "https://github.com/sebastinez"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "bugs": {
     "url": "https://github.com/sebastinez/cripto-converter-cli/issues"
   },
   "homepage": "https://github.com/sebastinez/cripto-converter-cli#readme",
-  "bin": {
-    "web3conv": "./bin/web3conv"
-  },
   "dependencies": {
     "yargs": "^14.0.0"
+  },
+  "bin": {
+    "web3conv": "./bin/web3conv.js"
   }
 }

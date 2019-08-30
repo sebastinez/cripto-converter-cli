@@ -1,4 +1,4 @@
-# Cripto Converter CLI
+# CLI App for Cripto Conversions
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@
 
 The cripto/blockchain universe is deep and unknown for people new to it. **duh!**
 
-So to lighten it up a notch, and use myself as a reference tool I build this page wich should contain all the important needs a Blockchain / Dapp programmer can have..  
+So to lighten it up a notch, and use myself as a reference tool I build this Node CLI App wich should contain all the important needs a Blockchain / Dapp programmer can have..  
 Regarding types conversion.
 
 <a name="installation"></a>
@@ -33,11 +33,11 @@ npm install -g
 
 The cripto universe works with mysterious formats for average humans, like Hashes, Hex and Base 58 Strings if you searching for an all including tool, feel free to use this one.
 
-- Convert Strings into bytes32
-- Convert bytes32 into Strings
-- Convert Adresses into checksumed Adresses.
-- Encode and Decode Hex Strings to Base58
-- Create SHA256 hashes from various inputs (including files)
+- Convert ASCII strings into bytes32.
+- Convert bytes32 into ASCII strings.
+- Check and convert if needed wallet adresses into checksumed adresses.
+- Encode and Decode Hex strings to Base58
+- Create cryptographic hashes from Strings and Files
 - _to be continued.._
 
 <a name="appreciation"></a>

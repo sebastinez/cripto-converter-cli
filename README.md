@@ -22,9 +22,7 @@ Regarding types conversion.
 ## Installation
 
 ```shell
-git clone https://github.com/sebastinez/cripto-converter.git
-cd cripto-converter
-npm install -g
+npm install -g web3conv
 ```
 
 <a name="usage"></a>

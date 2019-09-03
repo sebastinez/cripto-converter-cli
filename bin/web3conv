@@ -1,151 +1,42 @@
 #!/usr/bin/env node
-const args = require('yargs');
-const { createHash } = require('crypto');
-const fs = require('fs');
-const utf8 = require('utf8');
-const Hash = require('eth-lib/lib/hash');
-const basex = require('base-x')('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
-const { stripHexPrefix, isHexStrict, rightPad } = require('../src/utils');
+const args = require("yargs");
+const { hash } = require("../src/hash");
+const { asciitobytes32, bytes32ToAscii } = require("../src/asciiAndBytes32");
+const { toChecksumAddress } = require("../src/checksumAddress");
+const { base58tohex, hextobase58 } = require("../src/base58");
 
 args
-  .usage('Usage: $0 -w [num] -h [num]')
+  .usage("Usage: $0 [command] <args>")
   .demandCommand()
   .recommendCommands()
   .strict()
-  .command('asciitobytes32', 'Convert ASCII String to Bytes32 String', yargs => {
-    let option = yargs.option('string', { alias: 's', demandOption: true }).argv;
+  .command("asciitobytes32", "[-s <ascii string>]", yargs => {
+    let option = yargs.option("string", { alias: "s", demandOption: true }).argv;
     asciitobytes32(option.string);
   })
-  .command('bytes32toascii', 'Convert Bytes32 String to ASCII String', yargs => {
-    let option = yargs.option('string', { alias: 's', demandOption: true, string: true }).argv;
+  .command("bytes32toascii", "[-s <bytes32 string>]", yargs => {
+    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
     bytes32ToAscii(option.string);
   })
-  .command('hash', 'Convert ASCII String or File to Cryptographic Hash', yargs => {
+  .command("hash", "[-a <hash algorithm>] [-s [string] | -f [file]]", yargs => {
     let option = yargs
-      .option('string', { alias: 's' })
-      .option('algorithm', { alias: 'a', demandOption: true })
-      .option('file', { alias: 'f' }).argv;
+      .option("string", { alias: "s" })
+      .option("algorithm", { alias: "a", demandOption: true })
+      .option("file", { alias: "f" }).argv;
     hash(option.algorithm, option.string, option.file);
   })
-  .command('checksumaddress', 'Convert Address to checksummed address', yargs => {
-    let option = yargs.option('address', { alias: 'a', demandOption: true, string: true }).argv;
+  .command("checksumaddress", "[-a <ETH Address>]", yargs => {
+    let option = yargs.option("address", { alias: "a", demandOption: true, string: true }).argv;
     toChecksumAddress(option.address);
   })
-  .command('base58tohex', 'Convert Base58 String to Hex String', yargs => {
-    let option = yargs.option('string', { alias: 's', demandOption: true, string: true }).argv;
+  .command("base58tohex", "[-s <base85 string>]", yargs => {
+    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
     base58tohex(option.string);
   })
-  .command('hextobase58', 'Convert Hex String to Base58 String', yargs => {
-    let option = yargs.option('string', { alias: 's', demandOption: true, string: true }).argv;
+  .command("hextobase58", "[-s <hex string>]", yargs => {
+    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
     hextobase58(option.string);
   })
-  .help('h')
-  .alias('h', 'help')
-  .alias('v', 'version').argv;
-
-function hash(algorithm, string, file) {
-  if (file && string) {
-    console.log('Double input, File or String, not both..');
-    return;
-  }
-  if (file) {
-    const fileBuffer = fs.readFileSync(file);
-    const hash = `0x${createHash(algorithm)
-      .update(fileBuffer)
-      .digest('hex')}`;
-    console.log(hash);
-    return;
-  }
-  if (string) {
-    const hash = `0x${createHash(algorithm)
-      .update(Buffer.from(string))
-      .digest('hex')}`;
-    console.log(hash);
-    return;
-  } else {
-    console.log('input missing');
-  }
-}
-
-function base58tohex(string) {
-  console.log(basex.decode(string).toString('hex'));
-}
-
-function hextobase58(string) {
-  console.log(basex.encode(Buffer.from(string, 'hex')));
-}
-
-function asciitobytes32(value, length = 32) {
-  let hex = '';
-
-  for (let i = 0; i < value.length; i += 1) {
-    const code = value.charCodeAt(i);
-    const n = code.toString(16);
-    hex += n.length < 2 ? `0${n}` : n;
-  }
-  const hexString = `0x${rightPad(hex, length * 2)}`;
-
-  if (hexString.length > 66) {
-    console.log(`Error with command asciitohex
-String: ${value}
-Too long to be converted, does not fit in 32 bytes`);
-    return;
-  }
-  console.log(`0x${rightPad(hex, length * 2)}`);
-  return;
-}
-
-function bytes32ToAscii(hex) {
-  if (hex.length !== 66)
-    throw new Error('The string is not the correct length, should be 66 digits long, including 0x prefix');
-  if (!hex.startsWith('0x')) throw new Error('The string should start with 0x');
-  if (!isHexStrict(hex)) throw new Error(`The parameter "${hex}" must be a valid HEX string.`);
-
-  let string = '';
-  let code = 0;
-  hex = stripHexPrefix(hex);
-
-  // remove 00 padding from either side
-  hex = hex.replace(/^(?:00)*/, '');
-  hex = hex
-    .split('')
-    .reverse()
-    .join('');
-  hex = hex.replace(/^(?:00)*/, '');
-  hex = hex
-    .split('')
-    .reverse()
-    .join('');
-
-  const l = hex.length;
-
-  for (let i = 0; i < l; i += 2) {
-    code = parseInt(hex.substr(i, 2), 16);
-    // if (code !== 0) {
-    string += String.fromCharCode(code);
-    // }
-  }
-  console.log(utf8.decode(string));
-}
-
-function toChecksumAddress(address, chainId = null) {
-  if (typeof address !== 'string') {
-    console.log('no String');
-  }
-
-  if (!/^(0x)?[0-9a-f]{40}$/i.test(address))
-    throw new Error(`Given address "${address}" is not a valid Ethereum address.`);
-
-  const stripAddress = stripHexPrefix(address).toLowerCase();
-  const prefix = chainId != null ? `${chainId.toString()}0x` : '';
-  const keccakHash = Hash.keccak256(prefix + stripAddress)
-    .toString('hex')
-    .replace(/^0x/i, '');
-  let checksumAddress = '0x';
-
-  for (let i = 0; i < stripAddress.length; i += 1)
-    checksumAddress += parseInt(keccakHash[i], 16) >= 8 ? stripAddress[i].toUpperCase() : stripAddress[i];
-
-  if (address === checksumAddress) console.log('Supplied Address is valid');
-  else console.log(checksumAddress);
-}
+  .help("h")
+  .alias("h", "help")
+  .alias("v", "version").argv;

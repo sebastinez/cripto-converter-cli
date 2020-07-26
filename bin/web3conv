@@ -10,31 +10,54 @@ args
   .demandCommand()
   .recommendCommands()
   .strict()
-  .command("asciitobytes32", "[-s <ascii string>]", yargs => {
-    let option = yargs.option("string", { alias: "s", demandOption: true }).argv;
+  .command("asciitobytes32", "[-s <ascii string>]", (yargs) => {
+    let option = yargs.option("string", { alias: "s", demandOption: true })
+      .argv;
     asciitobytes32(option.string);
   })
-  .command("bytes32toascii", "[-s <bytes32 string>]", yargs => {
-    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
+  .command("bytes32toascii", "[-s <bytes32 string>]", (yargs) => {
+    let option = yargs.option("string", {
+      alias: "s",
+      demandOption: true,
+      string: true,
+    }).argv;
     bytes32ToAscii(option.string);
   })
-  .command("hash", "[-a <hash algorithm>] [-s [string] | -f [file]]", yargs => {
+  .command(
+    "hash",
+    "[-a <hash algorithm>] [-s [string] | -f [file]]",
+    (yargs) => {
+      let option = yargs
+        .option("string", { alias: "s" })
+        .option("algorithm", { alias: "a", demandOption: true })
+        .option("file", { alias: "f" }).argv;
+      hash(option.algorithm, option.string, option.file);
+    }
+  )
+  .command("checksumaddress", "[-a <address>] [-i [chainId]]", (yargs) => {
     let option = yargs
-      .option("string", { alias: "s" })
-      .option("algorithm", { alias: "a", demandOption: true })
-      .option("file", { alias: "f" }).argv;
-    hash(option.algorithm, option.string, option.file);
+      .option("address", {
+        alias: "a",
+        demandOption: true,
+        string: true,
+      })
+      .option("chainId", { alias: "i", string: "true" }).argv;
+    toChecksumAddress(option.address, option.chainId);
   })
-  .command("checksumaddress", "[-a <ETH Address>]", yargs => {
-    let option = yargs.option("address", { alias: "a", demandOption: true, string: true }).argv;
-    toChecksumAddress(option.address);
-  })
-  .command("base58tohex", "[-s <base85 string>]", yargs => {
-    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
+  .command("base58tohex", "[-s <base85 string>]", (yargs) => {
+    let option = yargs.option("string", {
+      alias: "s",
+      demandOption: true,
+      string: true,
+    }).argv;
     base58tohex(option.string);
   })
-  .command("hextobase58", "[-s <hex string>]", yargs => {
-    let option = yargs.option("string", { alias: "s", demandOption: true, string: true }).argv;
+  .command("hextobase58", "[-s <hex string>]", (yargs) => {
+    let option = yargs.option("string", {
+      alias: "s",
+      demandOption: true,
+      string: true,
+    }).argv;
     hextobase58(option.string);
   })
   .help("h")

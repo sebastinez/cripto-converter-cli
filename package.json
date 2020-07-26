@@ -1,6 +1,6 @@
 {
-  "name": "web3conv",
-  "version": "1.1.0",
+  "name": "@sebastinez/web3conv",
+  "version": "1.2.0",
   "description": "CLI App for type conversion in the cripto universe",
   "main": "web3conv",
   "scripts": {},

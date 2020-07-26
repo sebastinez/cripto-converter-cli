@@ -17,13 +17,18 @@ const toChecksumAddress = (address, chainId = null) => {
   let checksumAddress = "0x";
 
   for (let i = 0; i < stripAddress.length; i += 1)
-    checksumAddress += parseInt(keccakHash[i], 16) >= 8 ? stripAddress[i].toUpperCase() : stripAddress[i];
 
-  if (address === checksumAddress) console.log(chalk.underline("\nSupplied Address is valid"));
+    checksumAddress +=
+      parseInt(keccakHash[i], 16) >= 8
+        ? stripAddress[i].toUpperCase()
+        : stripAddress[i];
+
+  if (address === checksumAddress)
+    console.log(chalk.underline("\nSupplied Address is valid\n"));
   else
     console.log(
-      chalk.underline("\nConverted ASCII string to Bytes32 String\n\n") +
-        `Input: ${address}\nOutput: ${checksumAddress}`
+      chalk.underline(`\nChecksummed address to chainId ${chainId}\n\n`) +
+        `${checksumAddress}\n`
     );
 };
 

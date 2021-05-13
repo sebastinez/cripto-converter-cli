@@ -1,8 +1,10 @@
-const basex = require("base-x")("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz");
-const chalk = require("chalk");
-const { isHexStrict } = require("../src/utils");
+import BaseX from "base-x";
+import chalk from "chalk";
+import { isHexStrict } from "./utils";
 
-const base58tohex = string => {
+const basex = BaseX("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz")
+
+const base58tohex = (string: string) => {
   try {
     const hex = basex.decode(string).toString("hex");
     console.log(chalk.underline("\nConverted Base58 string to Hex String\n\n") + `Input: ${string}\nOutput: ${hex}`);
@@ -11,7 +13,7 @@ const base58tohex = string => {
   }
 };
 
-const hextobase58 = string => {
+const hextobase58 = (string: string) => {
   try {
     if (!isHexStrict(string)) {
       throw Error(`The input string must be a valid HEX string.`);
@@ -25,4 +27,4 @@ const hextobase58 = string => {
   }
 };
 
-module.exports = { base58tohex, hextobase58 };
+export { base58tohex, hextobase58 };

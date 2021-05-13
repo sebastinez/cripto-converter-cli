@@ -1,9 +1,8 @@
-const Hash = require("eth-lib/lib/hash");
-const chalk = require("chalk");
+import Hash from "eth-lib/lib/hash";
+import chalk from "chalk";
+import { stripHexPrefix } from "./utils";
 
-const { stripHexPrefix } = require("../src/utils");
-
-const toChecksumAddress = (address, chainId = null) => {
+const toChecksumAddress = (address: string, chainId:null|number = null) => {
   if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
     console.log(chalk.underline("\nError:\n\n") + `Given address "${address}" is not a valid Ethereum address.`);
     return;
@@ -12,7 +11,6 @@ const toChecksumAddress = (address, chainId = null) => {
   const stripAddress = stripHexPrefix(address).toLowerCase();
   const prefix = chainId != null ? `${chainId.toString()}0x` : "";
   const keccakHash = Hash.keccak256(prefix + stripAddress)
-    .toString("hex")
     .replace(/^0x/i, "");
   let checksumAddress = "0x";
 
@@ -32,4 +30,4 @@ const toChecksumAddress = (address, chainId = null) => {
     );
 };
 
-module.exports = { toChecksumAddress };
+export { toChecksumAddress };

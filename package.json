@@ -3,7 +3,11 @@
   "version": "1.2.0",
   "description": "CLI App for type conversion in the cripto universe",
   "main": "web3conv",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc -b",
+    "build:dev": "tsc -w",
+    "start": "node dist/web3conv"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sebastinez/web3conv.git"
@@ -33,5 +37,11 @@
   },
   "bin": {
     "web3conv": "./bin/web3conv"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.3",
+    "@types/utf8": "^2.1.6",
+    "@types/yargs": "^16.0.1",
+    "typescript": "^4.2.4"
   }
 }

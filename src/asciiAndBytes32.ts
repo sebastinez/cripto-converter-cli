@@ -1,8 +1,8 @@
-const utf8 = require("utf8");
-const { stripHexPrefix, isHexStrict, rightPad } = require("../src/utils");
-const chalk = require("chalk");
+import utf8 from "utf8";
+import { stripHexPrefix, isHexStrict, rightPad } from "./utils";
+import chalk from "chalk";
 
-const asciitobytes32 = (value, length = 32) => {
+const asciitobytes32 = (value: string, length = 32) => {
   let hex = "";
 
   for (let i = 0; i < value.length; i += 1) {
@@ -20,17 +20,17 @@ const asciitobytes32 = (value, length = 32) => {
   }
   console.log(
     chalk.underline("\nConverted ASCII string to Bytes32 String\n\n") +
-      `Input: ${value}\nOutput: 0x${rightPad(hex, length * 2)}`
+    `Input: ${value}\nOutput: 0x${rightPad(hex, length * 2)}`
   );
   return;
 };
 
-const bytes32ToAscii = hex => {
+const bytes32ToAscii = (hex: string) => {
   let input = hex;
   if (hex.length !== 66) {
     console.log(
       chalk.underline("\nError:\n") +
-        "The string is not the correct length, should be 66 digits long, including 0x prefix"
+      "The string is not the correct length, should be 66 digits long, including 0x prefix"
     );
     return;
   }
@@ -67,8 +67,8 @@ const bytes32ToAscii = hex => {
   }
   console.log(
     chalk.underline("\nConverted Bytes32 string to ASCII String\n\n") +
-      `Input: ${input}\nOutput: ${utf8.decode(string)}`
+    `Input: ${input}\nOutput: ${utf8.decode(string)}`
   );
 };
 
-module.exports = { asciitobytes32, bytes32ToAscii };
+export { asciitobytes32, bytes32ToAscii };

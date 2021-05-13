@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const args = require("yargs");
-const { hash } = require("../src/hash");
-const { asciitobytes32, bytes32ToAscii } = require("../src/asciiAndBytes32");
-const { toChecksumAddress } = require("../src/checksumAddress");
-const { base58tohex, hextobase58 } = require("../src/base58");
+import args from "yargs";
+import { hash } from "./hash";
+import { asciitobytes32, bytes32ToAscii } from "./asciiAndBytes32";
+import { toChecksumAddress } from "./checksumAddress";
+import { base58tohex, hextobase58 } from "./base58";
 
 args
   .usage("Usage: $0 [command] <args>")
@@ -11,7 +11,7 @@ args
   .recommendCommands()
   .strict()
   .command("asciitobytes32", "[-s <ascii string>]", (yargs) => {
-    let option = yargs.option("string", { alias: "s", demandOption: true })
+    let option = yargs.option("string", { alias: "s", type:"string", demandOption: true })
       .argv;
     asciitobytes32(option.string);
   })
@@ -28,9 +28,9 @@ args
     "[-a <hash algorithm>] [-s [string] | -f [file]]",
     (yargs) => {
       let option = yargs
-        .option("string", { alias: "s" })
-        .option("algorithm", { alias: "a", demandOption: true })
-        .option("file", { alias: "f" }).argv;
+        .option("string", { type: "string", alias: "s" })
+        .option("algorithm", { type: "string", alias: "a", demandOption: true })
+        .option("file", { type:"string", alias: "f" }).argv;
       hash(option.algorithm, option.string, option.file);
     }
   )
@@ -39,9 +39,9 @@ args
       .option("address", {
         alias: "a",
         demandOption: true,
-        string: true,
+        type: "string"
       })
-      .option("chainId", { alias: "i", string: "true" }).argv;
+      .option("chainId", { type:"number", alias: "i" }).argv;
     toChecksumAddress(option.address, option.chainId);
   })
   .command("base58tohex", "[-s <base85 string>]", (yargs) => {

@@ -14,13 +14,14 @@ const asciitobytes32 = (value: string, length = 32) => {
 
   if (hexString.length > 66) {
     console.log(
-      chalk.underline("\nError:\n\n") + `String: [${value}]\nToo long to be converted, does not fit in 32 bytes`
+      chalk.underline("\nError:\n\n") +
+        `String: [${value}]\nToo long to be converted, does not fit in 32 bytes`
     );
     return;
   }
   console.log(
     chalk.underline("\nConverted ASCII string to Bytes32 String\n\n") +
-    `Input: ${value}\nOutput: 0x${rightPad(hex, length * 2)}`
+      `Input: ${value}\nOutput: 0x${rightPad(hex, length * 2)}`
   );
   return;
 };
@@ -30,16 +31,21 @@ const bytes32ToAscii = (hex: string) => {
   if (hex.length !== 66) {
     console.log(
       chalk.underline("\nError:\n") +
-      "The string is not the correct length, should be 66 digits long, including 0x prefix"
+        "The string is not the correct length, should be 66 digits long, including 0x prefix"
     );
     return;
   }
   if (!hex.startsWith("0x")) {
-    console.log(chalk.underline("\nError:\n") + "The string should start with 0x");
+    console.log(
+      chalk.underline("\nError:\n") + "The string should start with 0x"
+    );
     return;
   }
   if (!isHexStrict(hex)) {
-    console.log(chalk.underline("\nError:\n") + `The parameter "${hex}" must be a valid HEX string.`);
+    console.log(
+      chalk.underline("\nError:\n") +
+        `The parameter "${hex}" must be a valid HEX string.`
+    );
     return;
   }
 
@@ -49,15 +55,9 @@ const bytes32ToAscii = (hex: string) => {
 
   // remove 00 padding from either side
   hex = hex.replace(/^(?:00)*/, "");
-  hex = hex
-    .split("")
-    .reverse()
-    .join("");
+  hex = hex.split("").reverse().join("");
   hex = hex.replace(/^(?:00)*/, "");
-  hex = hex
-    .split("")
-    .reverse()
-    .join("");
+  hex = hex.split("").reverse().join("");
 
   const l = hex.length;
 
@@ -67,7 +67,7 @@ const bytes32ToAscii = (hex: string) => {
   }
   console.log(
     chalk.underline("\nConverted Bytes32 string to ASCII String\n\n") +
-    `Input: ${input}\nOutput: ${utf8.decode(string)}`
+      `Input: ${input}\nOutput: ${utf8.decode(string)}`
   );
 };
 

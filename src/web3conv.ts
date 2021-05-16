@@ -11,8 +11,11 @@ args
   .recommendCommands()
   .strict()
   .command("asciitobytes32", "[-s <ascii string>]", (yargs) => {
-    let option = yargs.option("string", { alias: "s", type:"string", demandOption: true })
-      .argv;
+    let option = yargs.option("string", {
+      alias: "s",
+      type: "string",
+      demandOption: true,
+    }).argv;
     asciitobytes32(option.string);
   })
   .command("bytes32toascii", "[-s <bytes32 string>]", (yargs) => {
@@ -30,7 +33,7 @@ args
       let option = yargs
         .option("string", { type: "string", alias: "s" })
         .option("algorithm", { type: "string", alias: "a", demandOption: true })
-        .option("file", { type:"string", alias: "f" }).argv;
+        .option("file", { type: "string", alias: "f" }).argv;
       hash(option.algorithm, option.string, option.file);
     }
   )
@@ -39,9 +42,9 @@ args
       .option("address", {
         alias: "a",
         demandOption: true,
-        type: "string"
+        type: "string",
       })
-      .option("chainId", { type:"number", alias: "i" }).argv;
+      .option("chainId", { type: "number", alias: "i" }).argv;
     toChecksumAddress(option.address, option.chainId);
   })
   .command("base58tohex", "[-s <base85 string>]", (yargs) => {

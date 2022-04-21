@@ -36,7 +36,7 @@ The cripto universe works with mysterious formats for average humans, like Hashe
 - Check and convert if needed wallet adresses into checksumed adresses.
 - Encode and Decode Hex strings to Base58
 - Create cryptographic hashes from Strings and Files
-- _to be continued.._
+- Create something new
 
 <a name="appreciation"></a>
 
